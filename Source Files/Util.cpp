@@ -1,0 +1,78 @@
+#include "Util.h"
+
+void Util::gotoxy(int column, int line)
+{
+	COORD coord;
+	coord.X = column;
+	coord.Y = line;
+	SetConsoleCursorPosition(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		coord
+	);
+}
+
+void Util::SaveFile(Node* lines[])
+{
+	ofstream myFile;
+	myFile.open("C:\\temp\\TextEditorSaveFile.txt");
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (lines[i] != nullptr) // Is there data on this line
+		{
+			Node* p;
+			p = lines[i];  // Begin at start for each line.
+			while (p != nullptr)
+			{
+				if (p->c != '\0')
+				{
+					myFile << p->c;
+				}
+				p = p->next;
+			}
+
+			if (i < 9 && lines[i + 1] != nullptr)
+			{
+				myFile << endl;
+			}
+		}
+	}
+
+	myFile.close();
+}
+
+void Util::LoadFile(Node* lines[], Node* &curr, Node* &start, NodeManager &nodeManager, int &xCursor, int &yCursor)
+{
+	ifstream myFile("C:\\temp\\TextEditorSaveFile.txt");
+	string line;
+	int charCount = 0;
+	nodeManager.lineCount = 1;
+
+	ClearFile(lines, curr, start, xCursor, yCursor, nodeManager);
+
+	while (getline(myFile, line, '\0'))
+	{
+		for (char c : line)
+		{
+			if (c != '\0')
+			{
+				nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, c);
+			}
+			
+			if (nodeManager.lineCount == 10) return;
+		}
+	}
+}
+
+void Util::ClearFile(Node* lines[], Node*& curr, Node*& start, int &xCursor, int &yCursor, NodeManager &nodeManager)
+{
+	// Clear any data before loading new stuff.
+	for (int i = 0; i < 10; i++)
+	{
+		lines[i] = nullptr;
+	}
+	nodeManager.lineCount = 1;
+	curr = start = nullptr;
+	xCursor = 0;
+	yCursor = 0;
+}
