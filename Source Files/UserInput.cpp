@@ -10,7 +10,7 @@ UserInput::UserInput()
 
 void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* curr, Node* start, NodeManager nodeManager)
 {
-	while (letter != 27) // 27 is ASCII for escape
+	while (letter != ESCAPE_KEY)
 	{
 		display.PrintHeader(util); // Displays header for user.
 		display.PrintUI(util);
@@ -18,27 +18,29 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 		util.gotoxy(xCursorOffset + xCursor, yCursorOffset + yCursor);
 		letter = _getch();
 
-		if (letter == 0) // Function key
+		// Function keys. Used for Save, Load, and Clear functions.
+		if (letter == F_KEY_INIT) 
 		{
 			letter = _getch();
-			if (letter == 59) // F1 hit
+			if (letter == F1_KEY) 
 			{
 				util.SaveFile(lines);
 			}
-			if (letter == 60) // F2 hit
+			if (letter == F2_KEY) 
 			{
 				util.LoadFile(lines, curr, start, nodeManager, xCursor, yCursor);
 			}
-			if (letter == 61) // F3 hit
+			if (letter == F3_KEY) 
 			{
 				util.ClearFile(lines, curr, start, xCursor, yCursor, nodeManager);
 			}
 		}
 
-		if (letter == -32) // Special character entered.
+		else if (letter == SPEC_CHAR) // Special character entered.
 		{
 			letter = _getch();
-			if (letter == 75) // Left pressed 
+
+			if (letter == LEFT_ARROW)
 			{
 				if (curr != start)
 				{
@@ -53,7 +55,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 					}
 				}
 			}
-			else if (letter == 77) // Right pressed
+			else if (letter == RIGHT_ARROW) // Right pressed
 			{
 				if (curr != nullptr) // Check if curr is pointing to anything.
 				{
@@ -70,7 +72,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 					}
 				}
 			}
-			else if (letter == 72) // Up pressed
+			else if (letter == UP_ARROW) // Up pressed
 			{
 				if (yCursor != 0) // Don't allow cursor to go above top line.
 				{
@@ -101,9 +103,9 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 					}
 				}
 			}
-			else if (letter == 80) // Down pressed
+			else if (letter == DOWN_ARROW) // Down pressed
 			{
-				if (yCursor != 9)// Don't allow cursor to go below bottom line.
+				if (yCursor != MAX_ROW_INDEX)// Don't allow cursor to go below bottom line.
 				{
 					if (lines[yCursor + 1] != nullptr) // Is there data one line down?
 					{
@@ -133,7 +135,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 				}
 			}
 		}
-		else if (letter == 13) // Enter pressed
+		else if (letter == ENTER_KEY) 
 		{
 			letter = '\n';
 			if (nodeManager.lineCount < 10)
@@ -141,24 +143,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 				nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, letter);
 			}
 		}
-		else if (letter == 27)
-		{
-			// Do nothing. Prevents ecape key from being processed into linked list.
-		}
-		else if (letter == 59)
-		{
-			// Do nothing. Prevents f1 key from being processed into linked list.
-		}
-		else if (letter == 60)
-		{
-			// Do nothing. Prevents f2 key from being processed into linked list.
-		}
-		else if (letter == 61)
-		{
-			// Do nothing. Prevents f3 key from being processed into linked list.
-		}
-
-		else if (letter == 8) // BACKSPACE LOGIC
+		else if (letter == BACKSPACE_KEY) 
 		{
 			nodeManager.RemoveNode(&curr, &start, lines, xCursor, yCursor);
 		}
