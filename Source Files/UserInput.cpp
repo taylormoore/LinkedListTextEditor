@@ -57,81 +57,88 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 			}
 			else if (letter == RIGHT_ARROW) // Right pressed
 			{
-				if (curr != nullptr) // Check if curr is pointing to anything.
-				{
-					if (curr->next != nullptr) // Make sure that right arrow cannot go out of bounds.
-					{
-						if (xCursor != 0) // Only move to next if we are at cursor zero. Prevents curr from being set incorrectly
-						{
-							// Move current pointer right one.
-							curr = curr->next;
-						}
+				// Check if curr is pointing to anything.
+				if (curr == nullptr)
+					continue;
 
-						// Move cursor right
-						xCursor++;
-					}
+				if (curr->next == nullptr)
+					continue;
+
+				if (xCursor != 0) // Only move to next if we are at cursor zero. Prevents curr from being set incorrectly
+				{
+					// Move current pointer right one.
+					curr = curr->next;
 				}
+
+				// Move cursor right
+				xCursor++;
 			}
 			else if (letter == UP_ARROW) // Up pressed
 			{
-				if (yCursor != 0) // Don't allow cursor to go above top line.
+				// Don't allow cursor to go above top line.
+				if (yCursor == MIN_ROW_INDEX)
+					continue;
+
+				// There is no data on above line. Do nothing.
+				if (lines[yCursor - 1] == nullptr)
+					continue;
+
+				yCursor--;
+				start = lines[yCursor];
+				curr = start;
+				int counter = xCursor;
+				xCursor = 0;
+
+				// This is a blank line with only a blank character. We don't need to alter our xCursor
+				if (curr->c == '\0')
+					continue;
+
+				for (int i = 0; i < counter - 1; i++) // Move current over to where x cursor is.
 				{
-					if (lines[yCursor - 1] != nullptr) // Is there data one line up?
+					if (curr->next != nullptr)
 					{
-						yCursor--;
-						start = lines[yCursor];
-						curr = start;
-						int counter = xCursor;
-						xCursor = 0;
-
-						if (curr->c != '\0') // This is a blank line with only a blank character.
-						{
-							for (int i = 0; i < counter - 1; i++) // Move current over to where x cursor is.
-							{
-								if (curr->next != nullptr)
-								{
-									curr = curr->next;
-									xCursor++; // Increment x cursor each time we're shifting curr over.
-								}
-							}
-
-							if (counter != 0)
-							{
-								xCursor++; // Increment one last time to put x cursor at the end of the line. 
-							}
-						}
+						curr = curr->next;
+						xCursor++; // Increment x cursor each time we're shifting curr over.
 					}
+				}
+
+				if (counter != 0)
+				{
+					xCursor++; // Increment one last time to put x cursor at the end of the line. 
 				}
 			}
 			else if (letter == DOWN_ARROW) // Down pressed
 			{
-				if (yCursor != MAX_ROW_INDEX)// Don't allow cursor to go below bottom line.
+				// Don't allow cursor to go below bottom line.
+				if (yCursor == MAX_ROW_INDEX)
+					continue;
+
+				// There is no data on below line. Do nothing.
+				if (lines[yCursor + 1] == nullptr)
+					continue;
+
+				yCursor++;
+				start = lines[yCursor];
+				curr = start;
+				int counter = xCursor;
+				xCursor = 0;
+
+				// This is a blank line with only a blank character. We don't need to alter our xCursor.
+				if (curr->c == '\0')
+					continue;
+
+				for (int i = 0; i < counter - 1; i++) // Move current over to where x cursor is.
 				{
-					if (lines[yCursor + 1] != nullptr) // Is there data one line down?
+					if (curr->next != nullptr)
 					{
-						yCursor++;
-						start = lines[yCursor];
-						curr = start;
-						int counter = xCursor;
-						xCursor = 0;
-
-						if (curr->c != '\0') // This is a blank line with only a blank character.
-						{
-							for (int i = 0; i < counter - 1; i++) // Move current over to where x cursor is.
-							{
-								if (curr->next != nullptr)
-								{
-									curr = curr->next;
-									xCursor++; // Increment x cursor each time we're shifting curr over.
-								}
-							}
-
-							if (counter != 0)
-							{
-								xCursor++; // Increment one last time to put x cursor at the end of the line. 
-							}
-						}
+						curr = curr->next;
+						xCursor++; // Increment x cursor each time we're shifting curr over.
 					}
+				}
+
+				if (counter != 0)
+				{
+					xCursor++; // Increment one last time to put x cursor at the end of the line. 
 				}
 			}
 		}

@@ -11,6 +11,7 @@ private:
 	int xCursorOffset, yCursorOffset;
 
 	const int MAX_ROW_INDEX = 9;
+	const int MIN_ROW_INDEX = 0;
 	
 	// KEY CONSTANTS
 	const int ESCAPE_KEY = 27;
