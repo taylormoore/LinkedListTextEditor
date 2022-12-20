@@ -4,8 +4,7 @@
 
 using namespace std;
 
-class NodeManager
-{
+class NodeManager {
 public:
 	NodeManager();
 	int lineCount;

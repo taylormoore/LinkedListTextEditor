@@ -1,11 +1,9 @@
 #pragma once
-class Node
-{
+class Node {
 public:
 	char c;
 	Node* next;
 	Node* prev;
 
-	// Constructor
 	Node();
 };

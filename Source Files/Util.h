@@ -6,8 +6,7 @@
 #include <Windows.h>
 using namespace std;
 
-class Util
-{
+class Util {
 public:
 	void gotoxy(int column, int line);
 	void SaveFile(Node* lines[]);

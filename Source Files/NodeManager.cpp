@@ -1,12 +1,10 @@
 #include "NodeManager.h"
 
-NodeManager::NodeManager()
-{
+NodeManager::NodeManager() {
 	lineCount = 1;
 }
 
-Node* NodeManager::CreateNewNode(char newChar)
-{
+Node* NodeManager::CreateNewNode(char newChar) {
 	// Create node.
 	Node* newNode = new Node();
 
@@ -16,14 +14,10 @@ Node* NodeManager::CreateNewNode(char newChar)
 	return newNode;
 }
 
-void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor, int& yCursor, char letter)
-{
-	if (letter == '\n') // Adding blank node.
-	{	
+void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor, int& yCursor, char letter) {
+	if (letter == '\n') { // Adding blank node	
 		if (yCursor == 0 && lines[0] == nullptr)
-		{
 			lines[yCursor] = CreateNewNode('\0');
-		}
 
 		yCursor++;
 		lines[yCursor] = CreateNewNode('\0');
@@ -35,8 +29,7 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 		return;
 	}
 
-	if ((*start) == nullptr) // if this is the first letter typed
-	{
+	if ((*start) == nullptr) { // if this is the first letter typed
 		// Create node.
 		Node* newNode = CreateNewNode(letter);
 
@@ -45,9 +38,7 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 		lines[yCursor] = (*start);
 
 		(*curr) = (*start);
-	}
-	else if ((*start)->c == '\0')
-	{
+	} else if ((*start)->c == '\0') {
 		delete(*start);
 
 		// Create node.
@@ -58,9 +49,7 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 		(*curr) = newNode;
 		lines[yCursor] = (*start);
 
-	}
-	else if (lines[yCursor] == (*start) && xCursor == 0) // insert at the beginning
-	{
+	} else if (lines[yCursor] == (*start) && xCursor == 0) { // insert at the beginning
 		// Create node.
 		Node* newNode = CreateNewNode(letter);
 
@@ -69,11 +58,8 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 		(*start) = newNode;
 		(*curr) = newNode;
 		lines[yCursor] = (*start);
-	}
-	else
-	{
-		if ((*curr)->next == nullptr) // inserting at the end
-		{
+	} else {
+		if ((*curr)->next == nullptr) { // inserting at the end
 			// Create node.
 			Node* newNode = CreateNewNode(letter);
 
@@ -82,9 +68,7 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 
 			// Move current
 			(*curr) = (*curr)->next;
-		}
-		else if ((*curr)->next != nullptr && xCursor != 0)// insert in middle  
-		{
+		} else if ((*curr)->next != nullptr && xCursor != 0) { // insert in middle  
 			// Create node.
 			Node* newNode = CreateNewNode(letter);
 
@@ -100,35 +84,23 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 	xCursor++;
 }
 
-void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCursor, int &yCursor)
-{
-	if ((*curr) != nullptr) // Check that current is pointing to something.
-	{
-		if ((*curr) == (*start)) // Check if we are at the beginning.
-		{
-			if ((*start)->next == nullptr) // There is only one character
-			{
-				if ((*start)->c != '\0') // Only perform operation if the one character isn't a blank line node
-				{
+void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCursor, int &yCursor) {
+	if ((*curr) != nullptr) { // Check that current is pointing to something.
+		if ((*curr) == (*start)) { // Check if we are at the beginning.
+			if ((*start)->next == nullptr) { // There is only one character
+				if ((*start)->c != '\0') { // Only perform operation if the one character isn't a blank line node
 					delete((*start));
 					(*start) = nullptr;
 					(*curr) = nullptr;
 					lines[yCursor] = this->CreateNewNode('\0');
 					xCursor--;
-				}
-				else
-				{
+				} else {
 					return;
 				}
-			}
-			else // There are characters other than start.
-			{
-				if (xCursor == 0)
-				{
+			} else { // There are characters other than start.
+				if (xCursor == 0) {
 					//Do nothing. We are all the way left
-				}
-				else if (xCursor == 1)
-				{
+				} else if (xCursor == 1) {
 					(*start) = (*curr)->next;
 					lines[yCursor] = (*start);
 					(*curr) = (*start);
@@ -138,9 +110,7 @@ void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCur
 					xCursor--;
 				}
 			}
-		}
-		else if ((*curr)->next == nullptr) // Check that we are at the end of the line
-		{
+		} else if ((*curr)->next == nullptr) { // Check that we are at the end of the line
 			// Move current back one.
 			(*curr) = (*curr)->prev;
 
@@ -152,9 +122,7 @@ void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCur
 
 			// Move cursor back one
 			xCursor--;
-		}
-		else if ((*curr)->next != nullptr && (*curr)->prev != nullptr) // Check if we are in middle
-		{
+		} else if ((*curr)->next != nullptr && (*curr)->prev != nullptr) { // Check if we are in middle
 			// Move current back one.
 			(*curr) = (*curr)->prev;
 

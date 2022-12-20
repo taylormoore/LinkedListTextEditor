@@ -3,12 +3,12 @@
 #include "Display.h"
 #include "Util.h"
 
-class UserInput
-{
+class UserInput {
 private:
 	char letter;
 	int xCursor, yCursor;
 	int xCursorOffset, yCursorOffset;
+	int counter;
 
 	const int MAX_ROW_INDEX = 9;
 	const int MIN_ROW_INDEX = 0;

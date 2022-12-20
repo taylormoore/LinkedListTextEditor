@@ -7,8 +7,7 @@
 
 using namespace std;
 
-int main()
-{
+int main() {
 	// Initialization
 	Node* lines[10];
 	Node* curr = nullptr;
