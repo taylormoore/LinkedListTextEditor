@@ -12,10 +12,15 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 {
 	while (letter != ESCAPE_KEY)
 	{
-		display.PrintHeader(util); // Displays header for user.
+		// Display user interface
+		display.PrintHeader(util); 
 		display.PrintUI(util);
 		display.PrintLineCount(util, nodeManager);
+
+		// Place cursor in correct location
 		util.gotoxy(xCursorOffset + xCursor, yCursorOffset + yCursor);
+
+		// Poll for user input from keyboard
 		letter = _getch();
 
 		// Function keys. Used for Save, Load, and Clear functions.

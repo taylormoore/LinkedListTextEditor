@@ -13,9 +13,15 @@ void Util::gotoxy(int column, int line)
 
 void Util::SaveFile(Node* lines[])
 {
-	ofstream myFile;
-	myFile.open("C:\\temp\\TextEditorSaveFile.txt");
-
+	ofstream myFile("C:\\Temp\\TextEditorSaveFile.txt");
+	
+	// If opening this file fails, the user likely is missing a temp directory in C drive. Make one for them.
+	if (myFile.fail())
+	{
+		CreateDirectoryA("C:\\Temp", NULL);
+		ofstream myFile("C:\\Temp\\TextEditorSaveFile.txt");
+	}
+	
 	for (int i = 0; i < 10; i++)
 	{
 		if (lines[i] != nullptr) // Is there data on this line
