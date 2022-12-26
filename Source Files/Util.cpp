@@ -54,8 +54,6 @@ void Util::LoadFile(Node* lines[], Node* &curr, Node* &start, NodeManager &nodeM
 		for (char c : line) 
 		{
 			if (c != '\0') { nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, c); }
-				
-			if (nodeManager.lineCount == 10) return;
 		}
 	}
 }
