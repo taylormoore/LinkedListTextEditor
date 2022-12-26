@@ -1,5 +1,6 @@
 #pragma once
-class Node {
+class Node 
+{
 public:
 	char c;
 	Node* next;

@@ -6,7 +6,8 @@
 
 using namespace std;
 
-class Display {
+class Display 
+{
 public:
 	void PrintScreen(Node* lines[], Util util, int xCursorOffset, int yCursorOffset);
 	void PrintHeader(Util util);

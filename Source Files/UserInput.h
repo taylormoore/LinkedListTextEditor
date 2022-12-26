@@ -3,7 +3,8 @@
 #include "Display.h"
 #include "Util.h"
 
-class UserInput {
+class UserInput 
+{
 private:
 	char letter;
 	int xCursor, yCursor;
