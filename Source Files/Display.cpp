@@ -4,27 +4,26 @@ void Display::PrintScreen(Node* lines[], Util util, int xCursorOffset, int yCurs
 {
 	util.gotoxy(20, 20);
 	system("cls");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7); // White
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_WHITE);
 	util.gotoxy(45, 0);
 
-	for (int i = 0; i < 10; i++) 
+	for (int i = 0; i < MAX_LINES; i++) 
 	{
-		if (lines[i] != nullptr) // Is there data on this line
-		{ 
-			Node* p;
-			p = lines[i];  // Begin at start for each line.
-			while (p != nullptr) 
-			{
-				util.gotoxy(xCursorOffset, yCursorOffset);
-				cout << p->c;
-				p = p->next;
-				xCursorOffset++;
-			}
+		if (lines[i] == nullptr) { continue; } // Skip lines with no data
 
-			yCursorOffset++;
-			xCursorOffset = 45;
-			cout << endl;
+		Node* p;
+		p = lines[i];  // Begin at start for each line.
+		while (p != nullptr) 
+		{
+			util.gotoxy(xCursorOffset, yCursorOffset);
+			cout << p->c;
+			p = p->next;
+			xCursorOffset++;
 		}
+
+		yCursorOffset++;
+		xCursorOffset = 45;
+		cout << endl;
 	}
 
 	PrintUI(util);
@@ -32,11 +31,11 @@ void Display::PrintScreen(Node* lines[], Util util, int xCursorOffset, int yCurs
 
 void Display::PrintHeader(Util util) 
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10); // Green
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_GREEN);
 	util.gotoxy(45, 0);
 	cout << "Taylor's Text Editor";
 	util.gotoxy(45, 1);
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7); // White
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_WHITE);
 	cout << "===============================";
 }
 
@@ -52,19 +51,6 @@ void Display::PrintUI(Util util)
 	cout << "F3 - Clear text";
 	util.gotoxy(45, 26);
 	cout << "ESC - Exit Program";
-}
-
-void Display::PrintLineCount(Util util, NodeManager nodeManager) 
-{
-	util.gotoxy(39, 3);
-	cout << "Lines";
-
-	for (int i = 0; i < 10; i++) 
-	{
-		util.gotoxy(40, 4 + (i+ 1));
-		cout.width(3);
-		cout << right << i + 1 << "|";
-	}
 }
 
 void Display::ClearScreen() 

@@ -15,7 +15,6 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 		// Display user interface
 		display.PrintHeader(util); 
 		display.PrintUI(util);
-		display.PrintLineCount(util, nodeManager);
 
 		// Place cursor in correct location
 		util.gotoxy(xCursorOffset + xCursor, yCursorOffset + yCursor);
