@@ -45,7 +45,6 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 	{
 		delete(*start);
 
-
 		Node* newNode = CreateNewNode(letter);
 		*start = newNode;
 
@@ -90,78 +89,61 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 		}
 	}
 
-	xCursor++;
+	xCursor += 1;
 }
 
 void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCursor, int &yCursor) 
 {
-	if (*curr != nullptr) // Check that current is pointing to something.
-	{ 
-		if (*curr == *start) // Check if we are at the beginning.
-		{ 
-			if ((*start)->next == nullptr) // There is only one character
-			{ 
-				if ((*start)->c != '\0') // Only perform operation if the one character isn't a blank line node
-				{ 
-					delete(*start);
-					*start = nullptr;
-					*curr = nullptr;
-					lines[yCursor] = this->CreateNewNode('\0');
-					xCursor--;
-				} 
-				else 
-				{
-					return;
-				}
-			} 
-			else // There are characters other than start.
-			{ 
-				if (xCursor == 0) 
-				{
-					//Do nothing. We are all the way left
-				} 
-				else if (xCursor == 1) 
-				{
-					*start = (*curr)->next;
-					lines[yCursor] = *start;
-					*curr = *start;
-					delete((*start)->prev);
-					(*start)->prev = nullptr;
+	// Do nothing is curr is null
+	if (*curr == nullptr) { return; }
 
-					xCursor--;
-				}
-			}
-		} 
-		else if ((*curr)->next == nullptr) // Check that we are at the end of the line
-		{ 
-			// Move current back one.
-			*curr = (*curr)->prev;
+	if (*curr == *start) // We are at the beginning of the line
+	{
+		if ((*start)->next == nullptr) // There is only one character
+		{
+			if ((*start)->c == '\0') { return; } // This is a blank line from the enter key. Do nothing
 
-			// Delete character that current is pointing to.
-			delete((*curr)->next);
+			delete(*start);
+			*start = nullptr;
+			*curr = nullptr;
+			lines[yCursor] = this->CreateNewNode('\0');
+		}
 
-			// Make end of current null.
-			(*curr)->next = nullptr;
-
-			// Move cursor back one
-			xCursor--;
-		} 
-		else if ((*curr)->next != nullptr && (*curr)->prev != nullptr) // Check if we are in middle
-		{ 
-			// Move current back one.
-			*curr = (*curr)->prev;
-
-			// Link curr next to two spaces ahead
-			(*curr)->next = (*curr)->next->next;
-
-			// delete character in the middle
-			delete((*curr)->next->prev);
-
-			// Link character ahead back to curr.
-			(*curr)->next->prev = *curr;
-
-			// Move cursor back one
-			xCursor--;
+		else if (xCursor > 0) 
+		{
+			*start = (*curr)->next;
+			lines[yCursor] = *start;
+			*curr = *start;
+			delete((*start)->prev);
+			(*start)->prev = nullptr;
 		}
 	}
+	else if ((*curr)->next == nullptr) // Check that we are at the end of the line
+	{
+		// Move current back one.
+		*curr = (*curr)->prev;
+
+		// Delete character that current is pointing to.
+		delete((*curr)->next);
+
+		// Make end of current null.
+		(*curr)->next = nullptr;
+	}
+	else if ((*curr)->next != nullptr && (*curr)->prev != nullptr) // Check if we are in middle
+	{
+		// Move current back one.
+		*curr = (*curr)->prev;
+
+		// Link curr next to two spaces ahead
+		(*curr)->next = (*curr)->next->next;
+
+		// delete character in the middle
+		delete((*curr)->next->prev);
+
+		// Link character ahead back to curr.
+		(*curr)->next->prev = *curr;
+	}
+
+	// Move cursor back one
+	if (xCursor > 0) { xCursor -= 1; }
 }

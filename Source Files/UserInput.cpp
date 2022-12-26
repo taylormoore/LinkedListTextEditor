@@ -61,7 +61,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 			else if (letter == UP_ARROW) 
 			{
 				// Don't allow cursor to go above top line.
-				if (yCursor == MIN_ROW_INDEX || lines[yCursor - 1] == nullptr || curr->c == '\0') { continue; }
+				if (yCursor == MIN_ROW_INDEX) { continue; }
 
 				yCursor--;
 				start = lines[yCursor];
@@ -86,7 +86,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 			else if (letter == DOWN_ARROW) 
 			{
 				// Don't allow cursor to go below bottom line.
-				if (yCursor == MAX_ROW_INDEX || lines[yCursor + 1] == nullptr || curr->c == '\0') { continue; }
+				if (yCursor == MAX_ROW_INDEX) { continue; }
 
 				yCursor++;
 				start = lines[yCursor];
