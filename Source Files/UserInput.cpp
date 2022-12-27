@@ -39,7 +39,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 			{
 				if (curr != start) 
 				{
-					xCursor--;
+					xCursor -= 1;
 					curr = curr->prev;
 				} 
 				else 
@@ -61,51 +61,26 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 			else if (letter == UP_ARROW) 
 			{
 				// Don't allow cursor to go above top line.
-				if (yCursor == MIN_ROW_INDEX) { continue; }
-
+				if (yCursor <= MIN_ROW_INDEX || lines[yCursor - 1] == nullptr) { continue; }
+				
+				// After changing yCursor position, reset our start and curr pointers and
+				// then place curr where it needs to go based on xCursor position
 				yCursor--;
 				start = lines[yCursor];
 				curr = start;
-				int counter = xCursor;
-				xCursor = 0;
-
-				// Move current over to where x cursor is.
-				for (int i = 0; i < counter - 1; i++) 
-				{
-					if (curr->next != nullptr) 
-					{
-						curr = curr->next;
-						xCursor++; // Increment x cursor each time we're shifting curr over.
-					}
-				}
-
-				// Increment one last time to put x cursor at the end of the line.
-				if (counter != 0) { xCursor++; }
-					
+				MoveCurrentToXCursor(xCursor, xCursor, curr, start);
 			} 
 			else if (letter == DOWN_ARROW) 
 			{
 				// Don't allow cursor to go below bottom line.
-				if (yCursor == MAX_ROW_INDEX) { continue; }
-
+				if (yCursor >= MAX_ROW_INDEX || lines[yCursor + 1] == nullptr) { continue; }
+				
+				// After changing yCursor position, reset our start and curr pointers and
+				// then place curr where it needs to go based on xCursor position
 				yCursor++;
 				start = lines[yCursor];
 				curr = start;
-				int counter = xCursor;
-				xCursor = 0;
-
-				// Move current over to where x cursor is
-				for (int i = 0; i < counter - 1; i++) 
-				{
-					if (curr->next != nullptr) 
-					{
-						curr = curr->next;
-						xCursor++; // Increment x cursor each time we're shifting curr over.
-					}
-				}
-
-				// Increment one last time to put x cursor at the end of the line. 
-				if (counter != 0) { xCursor++; }	
+				MoveCurrentToXCursor(xCursor, xCursor, curr, start);
 			}
 		} 
 		else if (letter == ENTER_KEY) 
@@ -124,4 +99,22 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 		// Print the linked list.
 		display.PrintScreen(lines, util, xCursorOffset, yCursorOffset);
 	}
+}
+
+void UserInput::MoveCurrentToXCursor(int xTarget, int& xCursor, Node*& curr, Node* start)
+{
+	xCursor = 1;
+
+	// Move current over to where x cursor is
+	for (int i = 1; i < xTarget; i++)
+	{
+		if (curr->next != nullptr)
+		{
+			curr = curr->next;
+			xCursor++; 
+		}
+	}
+
+	// Reset the xCursor to 0 if we are at the beginning of the line
+	if (curr == start) { xCursor = 0; }
 }

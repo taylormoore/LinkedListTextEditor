@@ -9,7 +9,6 @@ private:
 	char letter;
 	int xCursor, yCursor;
 	int xCursorOffset, yCursorOffset;
-	int counter;
 
 	const int MAX_ROW_INDEX = 9;
 	const int MIN_ROW_INDEX = 0;
@@ -31,4 +30,5 @@ private:
 public:
 	UserInput();
 	void GetUserInput(Display display, Util util, Node* lines[], Node* curr, Node* start, NodeManager nodeManager);
+	void MoveCurrentToXCursor(int xTarget, int& xCursor, Node* &curr, Node* start);
 };
