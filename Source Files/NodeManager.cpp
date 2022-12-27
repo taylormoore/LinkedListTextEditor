@@ -64,18 +64,22 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 	} 
 	else 
 	{
-		if ((*curr)->next == nullptr) // inserting at the end
+		// User is inserting a new character at the end of the line
+		if ((*curr)->next == nullptr)
 		{ 
 			// Create node.
 			Node* newNode = CreateNewNode(letter);
 
+			// Point current to the new character and make the new character
+			// point back to the end of the line
 			(*curr)->next = newNode;
 			newNode->prev = *curr;
 
-			// Move current
+			// Move current to be the new end of the line that was inserted
 			*curr = (*curr)->next;
 		} 
-		else if ((*curr)->next != nullptr && xCursor != 0) // insert in middle  
+		// User is inserting a new character in the middle of the line
+		else if ((*curr)->next != nullptr && xCursor != 0) 
 		{ 
 			// Create node.
 			Node* newNode = CreateNewNode(letter);
@@ -97,20 +101,27 @@ void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCur
 	// Do nothing is curr is null
 	if (*curr == nullptr) { return; }
 
-	if (*curr == *start) // We are at the beginning of the line
+	// User is deleting the first character of the line
+	if (*curr == *start) 
 	{
-		if ((*start)->next == nullptr) // There is only one character
+		// There is only one character on the line
+		if ((*start)->next == nullptr) 
 		{
-			if ((*start)->c == '\0') { return; } // This is a blank line from the enter key. Do nothing
+			// Do nothing if this is a blank line from the enter key
+			if ((*start)->c == '\0') { return; } 
 
+			// Delete the character and reset all pointers
 			delete(*start);
 			*start = nullptr;
 			*curr = nullptr;
 			lines[yCursor] = this->CreateNewNode('\0');
 		}
 
+		// User is deleting the first character of the line but there are more characters after it
 		else if (xCursor > 0) 
 		{
+			// Set all pointers to the second character in the line
+			// then delete the previous character's pointer
 			*start = (*curr)->next;
 			lines[yCursor] = *start;
 			*curr = *start;
@@ -118,7 +129,8 @@ void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCur
 			(*start)->prev = nullptr;
 		}
 	}
-	else if ((*curr)->next == nullptr) // Check that we are at the end of the line
+	// User is deleting the last character of a line
+	else if ((*curr)->next == nullptr) 
 	{
 		// Move current back one.
 		*curr = (*curr)->prev;
@@ -129,12 +141,14 @@ void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCur
 		// Make end of current null.
 		(*curr)->next = nullptr;
 	}
-	else if ((*curr)->next != nullptr && (*curr)->prev != nullptr) // Check if we are in middle
+	// User is deleting a character in the middle of the line
+	// that is not the first character
+	else if ((*curr)->next != nullptr && (*curr)->prev != nullptr) 
 	{
 		// Move current back one.
 		*curr = (*curr)->prev;
 
-		// Link curr next to two spaces ahead
+		// Link curr->next to two spaces ahead
 		(*curr)->next = (*curr)->next->next;
 
 		// delete character in the middle
@@ -144,6 +158,7 @@ void NodeManager::RemoveNode(Node** curr, Node** start, Node* lines[], int &xCur
 		(*curr)->next->prev = *curr;
 	}
 
-	// Move cursor back one
+	// Move cursor back one. Performed for all cases except for when 
+	// the xCursor is all the way to the left
 	if (xCursor > 0) { xCursor -= 1; }
 }

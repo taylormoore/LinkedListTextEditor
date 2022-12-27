@@ -21,20 +21,19 @@ void Util::SaveFile(Node* lines[])
 	
 	for (int i = 0; i < 10; i++) 
 	{
-		// Is there data on this line
-		if (lines[i] != nullptr) 
+		// Skip lines that contain no data
+		if (lines[i] == nullptr) { continue; }
+		
+		// Begin at start for each line and print each character in it to the file
+		Node* p;
+		p = lines[i];  
+		while (p != nullptr) 
 		{
-			Node* p;
-			p = lines[i];  // Begin at start for each line.
-			while (p != nullptr) 
-			{
-				if (p->c != '\0') { myFile << p->c; }
-				
-				p = p->next;
-			}
-
-			if (i < 9 && lines[i + 1] != nullptr) { myFile << endl; }
+			if (p->c != '\0') { myFile << p->c; }
+			p = p->next;
 		}
+
+		if (i < 9 && lines[i + 1] != nullptr) { myFile << endl; }
 	}
 
 	myFile.close();
@@ -60,7 +59,7 @@ void Util::LoadFile(Node* lines[], Node* &curr, Node* &start, NodeManager &nodeM
 
 void Util::ClearFile(Node* lines[], Node*& curr, Node*& start, int &xCursor, int &yCursor, NodeManager &nodeManager) 
 {
-	// Clear any data before loading new stuff.
+	// Clear any data from each line
 	for (int i = 0; i < 10; i++) 
 	{
 		lines[i] = nullptr;
