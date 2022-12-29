@@ -2,7 +2,6 @@
 
 void Display::PrintScreen(Node* lines[], Util util, int xCursorOffset, int yCursorOffset) 
 {
-	util.gotoxy(20, 20);
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_WHITE);
 	util.gotoxy(45, 2);

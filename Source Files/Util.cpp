@@ -33,7 +33,7 @@ void Util::SaveFile(Node* lines[])
 			p = p->next;
 		}
 
-		if (i < 16 && lines[i + 1] != nullptr) { myFile << endl; }
+		if (i != 15) { myFile << endl; }
 	}
 
 	myFile.close();
@@ -55,6 +55,10 @@ void Util::LoadFile(Node* lines[], Node* &curr, Node* &start, NodeManager &nodeM
 			if (c != '\0') { nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, c); }
 		}
 	}
+
+	// Reset the cursor coordinates back to the beginning of the file
+	xCursor = 0;
+	yCursor = 0;
 }
 
 void Util::ClearFile(Node* lines[], Node*& curr, Node*& start, int &xCursor, int &yCursor, NodeManager &nodeManager) 
