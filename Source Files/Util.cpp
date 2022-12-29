@@ -57,8 +57,10 @@ void Util::LoadFile(Node* lines[], Node* &curr, Node* &start, NodeManager &nodeM
 	}
 
 	// Reset the cursor coordinates back to the beginning of the file
+	// Reset pointers
 	xCursor = 0;
 	yCursor = 0;
+	curr = start = lines[0];
 }
 
 void Util::ClearFile(Node* lines[], Node*& curr, Node*& start, int &xCursor, int &yCursor, NodeManager &nodeManager) 

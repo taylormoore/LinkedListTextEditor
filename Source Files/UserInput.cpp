@@ -111,7 +111,7 @@ void UserInput::MoveCurrentToXCursor(int xTarget, int& xCursor, Node*& curr, Nod
 		if (curr->next != nullptr)
 		{
 			curr = curr->next;
-			xCursor++; 
+			xCursor += 1; 
 		}
 	}
 
