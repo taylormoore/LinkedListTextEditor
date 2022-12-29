@@ -19,7 +19,7 @@ void Util::SaveFile(Node* lines[])
 		ofstream myFile("C:\\Temp\\TextEditorSaveFile.txt");
 	}
 	
-	for (int i = 0; i < 10; i++) 
+	for (int i = 0; i < 16; i++) 
 	{
 		// Skip lines that contain no data
 		if (lines[i] == nullptr) { continue; }
@@ -33,7 +33,7 @@ void Util::SaveFile(Node* lines[])
 			p = p->next;
 		}
 
-		if (i < 9 && lines[i + 1] != nullptr) { myFile << endl; }
+		if (i < 16 && lines[i + 1] != nullptr) { myFile << endl; }
 	}
 
 	myFile.close();
@@ -60,7 +60,7 @@ void Util::LoadFile(Node* lines[], Node* &curr, Node* &start, NodeManager &nodeM
 void Util::ClearFile(Node* lines[], Node*& curr, Node*& start, int &xCursor, int &yCursor, NodeManager &nodeManager) 
 {
 	// Clear any data from each line
-	for (int i = 0; i < 10; i++) 
+	for (int i = 0; i < 16; i++) 
 	{
 		lines[i] = nullptr;
 	}

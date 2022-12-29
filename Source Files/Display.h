@@ -9,7 +9,7 @@ using namespace std;
 class Display 
 {
 private:
-	const int MAX_LINES   = 10;
+	const int MAX_LINES   = 16;
 	const int COLOR_WHITE = 7;
 	const int COLOR_GREEN = 10;
 public:

@@ -5,7 +5,7 @@ UserInput::UserInput()
 	letter = ' ';
 	xCursor = yCursor = 0;
 	xCursorOffset = 45;
-	yCursorOffset = 5;
+	yCursorOffset = 2;
 }
 
 void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* curr, Node* start, NodeManager nodeManager) 
@@ -85,7 +85,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 		} 
 		else if (letter == ENTER_KEY) 
 		{
-			if (nodeManager.lineCount < 10) { nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, '\n'); }
+			if (nodeManager.lineCount < 16) { nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, '\n'); }
 		} 
 		else if (letter == BACKSPACE_KEY) 
 		{

@@ -10,7 +10,7 @@ private:
 	int xCursor, yCursor;
 	int xCursorOffset, yCursorOffset;
 
-	const int MAX_ROW_INDEX = 9;
+	const int MAX_ROW_INDEX = 15;
 	const int MIN_ROW_INDEX = 0;
 	
 	// KEY CONSTANTS
