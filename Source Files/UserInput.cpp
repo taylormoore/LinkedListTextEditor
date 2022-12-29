@@ -47,17 +47,19 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 					if (xCursor == 1) { xCursor -= 1; }
 				}
 			} 
-			else if (letter == RIGHT_ARROW) 
+			else if (letter == RIGHT_ARROW)
 			{
-				// Check if curr is pointing to anything.
-				if (curr == nullptr || curr->next == nullptr) { continue; }
+				// Prevents the cursor from going out of bounds
+				if (curr->next == nullptr) { continue; }
 
 				// Only move to next if we are at cursor zero. Prevents curr from being set incorrectly
-				if (xCursor != 0) { curr = curr->next; }
+				if (xCursor != 0) 
+				{
+					curr = curr->next;
+				}
 
-				// Move cursor right
 				xCursor++;
-			} 
+			}
 			else if (letter == UP_ARROW) 
 			{
 				// Don't allow cursor to go above top line.
@@ -103,18 +105,25 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 
 void UserInput::MoveCurrentToXCursor(int xTarget, int& xCursor, Node*& curr, Node* start)
 {
-	xCursor = 1;
+	int counter = xCursor;
+	xCursor = 0;
 
-	// Move current over to where x cursor is
-	for (int i = 1; i < xTarget; i++)
+	// Do nothing if the line we've arrowed to is blank
+	if (curr->c == '\0') { return; }
+	
+	// Move current over to where x cursor is.
+	for (int i = 0; i < counter - 1; i++) 
 	{
 		if (curr->next != nullptr)
 		{
 			curr = curr->next;
-			xCursor += 1; 
+			xCursor++; 
 		}
 	}
 
-	// Reset the xCursor to 0 if we are at the beginning of the line
-	if (curr == start) { xCursor = 0; }
+	// Increment one last time to put x cursor at the end of the line. 
+	if (counter != 0)
+	{
+		xCursor++; 
+	}
 }
