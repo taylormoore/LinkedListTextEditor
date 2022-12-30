@@ -1,4 +1,5 @@
 #include "UserInput.h"
+#include "Display.h"
 
 UserInput::UserInput() 
 {
@@ -10,6 +11,7 @@ UserInput::UserInput()
 
 void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* curr, Node* start, NodeManager nodeManager) 
 {
+	// The program exits when the user hits the escape key
 	while (letter != ESCAPE_KEY) 
 	{
 		// Display user interface
@@ -37,14 +39,19 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 			
 			if (letter == LEFT_ARROW) 
 			{
-				if (curr != start) 
+				// If we are at the start of the line but our cursor is on the right side of the character
+				if (curr == start && xCursor == 1)
+				{
+					xCursor -= 1;
+					continue;
+				}
+				
+				// If we aren't at the beginning of our line,
+				// move our curr pointer and update xCursor
+				if (curr->prev != nullptr)
 				{
 					xCursor -= 1;
 					curr = curr->prev;
-				} 
-				else 
-				{
-					if (xCursor == 1) { xCursor -= 1; }
 				}
 			} 
 			else if (letter == RIGHT_ARROW)
@@ -87,7 +94,7 @@ void UserInput::GetUserInput(Display display, Util util, Node* lines[], Node* cu
 		} 
 		else if (letter == ENTER_KEY) 
 		{
-			if (nodeManager.lineCount < 16) { nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, '\n'); }
+			if (nodeManager.lineCount < Display::MAX_LINES) { nodeManager.AddNode(&curr, &start, lines, xCursor, yCursor, '\n'); }
 		} 
 		else if (letter == BACKSPACE_KEY) 
 		{

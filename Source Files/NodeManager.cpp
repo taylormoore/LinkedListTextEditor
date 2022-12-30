@@ -41,7 +41,7 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 
 		*curr = *start;
 	} 
-	else if ((*start)->c == '\0') 
+	else if ((*start)->c == '\0') // Inserting a character on a blank line
 	{
 		delete(*start);
 
@@ -52,7 +52,7 @@ void NodeManager::AddNode(Node** curr, Node** start, Node* lines[], int& xCursor
 		*curr = newNode;
 		lines[yCursor] = *start;
 	} 
-	else if (lines[yCursor] == *start && xCursor == 0) // insert at the beginning
+	else if (lines[yCursor] == *start && xCursor == 0) // Inserting at the beginning of a line
 	{ 
 		Node* newNode = CreateNewNode(letter);
 

@@ -1,4 +1,5 @@
 #include "Util.h"
+#include "Display.h"
 
 void Util::gotoxy(int column, int line) 
 {
@@ -19,7 +20,7 @@ void Util::SaveFile(Node* lines[])
 		ofstream myFile("C:\\Temp\\TextEditorSaveFile.txt");
 	}
 	
-	for (int i = 0; i < 16; i++) 
+	for (int i = 0; i < Display::MAX_LINES; i++) 
 	{
 		// Skip lines that contain no data
 		if (lines[i] == nullptr) { continue; }
@@ -66,10 +67,11 @@ void Util::LoadFile(Node* lines[], Node* &curr, Node* &start, NodeManager &nodeM
 void Util::ClearFile(Node* lines[], Node*& curr, Node*& start, int &xCursor, int &yCursor, NodeManager &nodeManager) 
 {
 	// Clear any data from each line
-	for (int i = 0; i < 16; i++) 
+	for (int i = 0; i < Display::MAX_LINES; i++) 
 	{
 		lines[i] = nullptr;
 	}
+
 	nodeManager.lineCount = 1;
 	curr = start = nullptr;
 	xCursor = 0;

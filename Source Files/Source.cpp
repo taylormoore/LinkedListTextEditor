@@ -10,7 +10,7 @@ using namespace std;
 int main() 
 {
 	// Initialization
-	Node* lines[16];
+	Node* lines[Display::MAX_LINES];
 	Node* curr = nullptr;
 	Node* start = nullptr;
 	Util util;
@@ -19,7 +19,7 @@ int main()
 	Display display;
 
 	// Initialize line array. 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < Display::MAX_LINES; i++)
 		lines[i] = nullptr;
 
 	userInput.GetUserInput(display, util, lines, curr, start, nodeManager);

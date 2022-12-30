@@ -9,10 +9,10 @@ using namespace std;
 class Display 
 {
 private:
-	const int MAX_LINES   = 16;
 	const int COLOR_WHITE = 7;
 	const int COLOR_GREEN = 10;
 public:
+	const static int MAX_LINES = 16;
 	void PrintScreen(Node* lines[], Util util, int xCursorOffset, int yCursorOffset);
 	void PrintHeader(Util util);
 	void PrintUI(Util util);

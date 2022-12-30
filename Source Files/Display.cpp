@@ -4,7 +4,7 @@ void Display::PrintScreen(Node* lines[], Util util, int xCursorOffset, int yCurs
 {
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_WHITE);
-	util.gotoxy(45, 2);
+	util.gotoxy(xCursorOffset, yCursorOffset);
 
 	for (int i = 0; i < MAX_LINES; i++) 
 	{
